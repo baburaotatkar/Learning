@@ -1,0 +1,19 @@
+# Set Serverlist file path  
+$serverlist=Get-Content "C:\Scripts\Powershell\Check-Antivirus Status\serverlist.txt"
+# check status for every server in list
+foreach($server in $serverlist){
+if(Get-MpComputerStatus -CimSession $server)
+# write output 
+{
+Write-Host "$server AV-YES" -ForegroundColor Green
+$output+="$server AV-YES"+"`n"
+}
+else{
+Write-Host "$server AV-NO" -ForegroundColor Red
+$output+="$server AV-NO"+"`n"
+}
+}
+# write output to file
+$output | Out-File "C:\Scripts\Powershell\Check-Antivirus Status\defenderresult.txt"
+# end script after 1 seconds 
+Start-Sleep -s 15
