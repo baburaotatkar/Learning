@@ -1,0 +1,19 @@
+# Set Serverlist file path  
+$serverlist=Get-Content "C:\Scripts\Powershell\Check-Antivirus Status\serverlist.txt"
+# check ping response for every server in list
+foreach($server in $serverlist){
+if(Test-Connection -ComputerName $server -Count 1 -ErrorAction SilentlyContinue) 
+# write ping reponse output
+{
+Write-Host "$server up" -ForegroundColor Green
+$output+="$server up"+"`n"
+}
+else{
+Write-Host "$server down" -ForegroundColor Red
+$output+="$server down"+"`n"
+}
+}
+# write all logs to file
+$output | Out-File "C:\Scripts\Powershell\Check-Antivirus Status\result.txt"
+# wait script to finish for 15 second
+Start-Sleep -s 15
